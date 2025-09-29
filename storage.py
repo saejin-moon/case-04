@@ -25,8 +25,9 @@ def save_submission(submission: SurveySubmission, ip: str, user_agent: Optional[
             record["submission_id"] = sha256_hash(submission.email + date_hour)
         
         record["email-hash"] = sha256_hash(record["email"])
-        record["age"] = sha256_hash(str(record["age"]))
+        record["age-hash"] = sha256_hash(str(record["age"]))
         del record["email"]
+        del record["age"]
         # Add server-enriched fields
         record["received_at"] = datetime.utcnow().isoformat()
         record["ip"] = ip
