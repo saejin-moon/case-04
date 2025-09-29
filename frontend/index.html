@@ -81,11 +81,12 @@
         consent: fd.get("consent") === "on",
         rating: Number(fd.get("rating")),
         comments: (fd.get("comments") || "").toString(),
-        source: (fd.get("source") || "other").toString()
+        source: (fd.get("source") || "other").toString(),
+        user_agent: navigator.userAgent
       };
 
       try {
-        const res = await fetch("https://ood.hpc.virginia.edu/rnode/udc-aw32-1c0/37326/proxy/43147/v1/survey", {
+        const res = await fetch("http://localhost:37471/v1/survey", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
