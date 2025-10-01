@@ -33,22 +33,18 @@ def submit_survey():
     except ValidationError as ve:
         return jsonify({"error": "validation_error", "detail": ve.errors()}), 422
     
-    #added code
     ip = request.headers.get("X-Forwarded-For", request.remote_addr or "")
     user_agent = request.headers.get("User-Agent")
 
-    # Save submission (handles PII hashing, submission_id, received_at, user_agent)
     try:
         save_submission(submission, ip=ip, user_agent=user_agent)
     except Exception as e:
-        # Log the error for debugging
         import traceback
         traceback.print_exc()
         print("Error saving submission:", e)
         return jsonify({"error": "internal_server_error", "detail": str(e)}), 500
 
     return jsonify({"status": "ok"}), 201
-    #
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
